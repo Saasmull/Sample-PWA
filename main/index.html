@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sample PWA</title>
+    <!-- The whole sh*t which is needed to make this PWA apple compatible: !-->
+    <meta name="application-name" content="Sample PWA">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Sample PWA">
+    <link rel="icon" sizes="512x512" href="/icons/app_512x512.png">
+    <link rel="apple-touch-icon" href="/icons/app_512x512.png">
+    <!-- The last tags for making this PWA working: !-->
+    <meta name="format-detection" content="telephone=no,date=no,address=no,email=no">
+    <meta name="viewport" content="width=device-width, height=device-height, user-scalable=no, initial-scale=1.0">
+    <meta name="theme-color" content="#000000">
+    <link rel="manifest" href="/manifest.json">
+</head>
+<body>
+    <h1>Sample PWA</h1>
+    <br>
+    <p>This Site is installable on the most devices.</p>
+    <p id="installed">This is PWA isn't installed.</p>
+    <br><br><br><br><br><br>
+    <div>Icons created by <a href="https://www.flaticon.com/de/autoren/those-icons" title="Those Icons">Those Icons</a> from <a href="https://www.flaticon.com/de/" title="Flaticon">www.flaticon.com</a></div>
+    <script>
+        let h1Tag = document.querySelector("h1");
+        let installedPwaOutput = document.querySelector("#installed");
+
+        if(window.location.search === "?src=hw"){
+            h1Tag.innerHTML = "Hello World!";
+        }
+
+        const isInstalled = function (){
+            return ["fullscreen", "standalone", "minimal-ui"].some(
+                (displayMode) => window.matchMedia('(display-mode: ' + displayMode + ')').matches
+            );
+        }
+
+        //The following says that this PWA is installed or not:
+        //console.log(isInstalled());
+        if(isInstalled()){
+            installedPwaOutput.innerHTML = "This PWA is installed!";
+        }
+
+        if("serviceWorker" in navigator) {
+            //This tells the browser that an service worker is available:
+            navigator.serviceWorker.register("/sw.js");
+        }
+    </script>
+</body>
+</html>
